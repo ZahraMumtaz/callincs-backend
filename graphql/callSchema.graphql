@@ -1,0 +1,56 @@
+const { gql } = require("apollo-server-express");
+
+const callSchema = `
+  type Call {
+    id: ID!
+    direction: String!
+    from: String!
+    to: String!
+    duration: Float!
+    is_archived: Boolean!
+    call_type: String!
+    via: String!
+    created_at: String!
+    notes: [Note]
+  }
+
+  type Note {
+    id: ID!
+    content: String!
+  }
+
+  type Query {
+    calls(offset: Int, limit: Int, query: SearchCallList): CallList!
+    call(id: ID!): Call
+  }
+
+  type Mutation {
+    createNote(callId: ID!, content: String!): Call
+    toggleArchiveCall(id: ID!): Call
+  }
+
+  type Subscription {
+    onUpdateCall(id: ID!): Call
+  }
+
+  type CallList {
+    nodes: [Call!]!
+    totalCount: Int!
+    hasNextPage: Boolean!
+  }
+
+  input SearchCallList {
+    direction: String
+    from: String
+    to: String
+    duration: Float
+    is_archived: Boolean
+    call_type: String
+    via: String,
+    startDate:String,
+    endDate: String
+  }
+
+`;
+
+module.exports = callSchema;

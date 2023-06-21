@@ -1,0 +1,26 @@
+const { gql } = require("apollo-server-express");
+
+const userSchema = `
+  type User {
+    id: ID!
+    email: String!
+    password: String
+  }
+
+  type Query {
+    me: User!
+  }
+
+  type Mutation {
+    loginUser(email: String!, password: String!): AuthPayload!
+    refreshToken: AuthPayload!
+    seedData: String!
+  }
+
+  type AuthPayload {
+    access_token: String!
+    user: User!
+  }
+`;
+
+module.exports = userSchema;
